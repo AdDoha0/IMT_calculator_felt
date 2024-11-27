@@ -22,4 +22,12 @@ def main(page: ft.Page):
         bgcolor=ft.colors.SURFACE
         )
 
+    # баннер с предупреждением об отсутствии заполненных полей
+    page.banner = ft.Banner(
+        bgcolor=ft.colors.AMBER_100,
+        leading=ft.Icon(ft.icons.WARNING_AMBER, color=ft.colors.AMBER, size=40),
+        content=ft.Text("Упс, вы заполнили все поля?"),
+        actions=[ft.TextButton('OK', on_click=close_banner)]
+        )
+
 ft.app(target=main)
