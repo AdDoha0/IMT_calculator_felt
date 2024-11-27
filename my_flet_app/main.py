@@ -2,24 +2,24 @@
 import flet as ft
 
 def main(page: ft.Page):
-    page.title = "Список задач"
-    page.window_width = 460
+
+    # настройки страницы
+    page.window_width = 400
     page.window_height = 550
 
 
-    def add_new_task(e):
-        if new_task_form.value =="":
-            print("Добавте задачу")
-        else:
-            page.add(ft.Checkbox(label=new_task_form.value))
-            new_task_form.value = ""
-            new_task_form.focus()
-            new_task_form.update()
 
-    new_task_form = ft.TextField(hint_text="Введите новую задачу", width=300)
-    button_add = ft.ElevatedButton("Добавить", on_click=add_new_task)
+    def close_banner(e):
+        page.banner.open = False
+        page.update()
 
-    page.add(ft.Row(controls=[new_task_form, button_add]))
-
+    # appbar приложения (самая верхняя часть)
+    page.appbar = ft.AppBar(
+        leading=ft.Icon(ft.icons.MULTILINE_CHART),
+        leading_width=40,
+        title=ft.Text("Калькулятор IMT"),
+        center_title=False,
+        bgcolor=ft.colors.SURFACE
+        )
 
 ft.app(target=main)
