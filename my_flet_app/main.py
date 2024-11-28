@@ -14,6 +14,33 @@ def main(page: ft.Page):
         page.banner.open = False
         page.update()
 
+
+
+    # height_field weight_field gender_dropdown
+    def calculate(e):
+        if weight_field.value == "" or height_field.value == "" or gender_dropdown.value == "":
+            page.banner.open = True
+            page.update()
+        else:
+            weight_value = float(weight_field.value)
+            height_value = float(height_field.value)
+
+            # вычесляем IMT
+            imt = weight_value / (height_value * height_value)
+            imt = float(f"{imt:2f}")
+
+            # отоброзить значение IMT
+            imt_views.value = f"IMT - {imt}"
+
+
+        # очистить поля
+        weight_field.value = ""
+        height_field.value = ""
+        gender_dropdown.value = ""
+
+        # обновить страницу
+        page.update()
+
     # appbar приложения (самая верхняя часть)
     page.appbar = ft.AppBar(
         leading=ft.Icon(ft.icons.MULTILINE_CHART),
@@ -24,12 +51,22 @@ def main(page: ft.Page):
         color="#CCCCCC"
         )
 
-    # баннер с предупреждением об отсутствии заполненных полей
+
+
     page.banner = ft.Banner(
-        bgcolor=ft.colors.AMBER_100,
-        leading=ft.Icon(ft.icons.WARNING_AMBER, color=ft.colors.AMBER, size=40),
-        content=ft.Text("Упс, вы заполнили все поля?"),
-        actions=[ft.TextButton('OK', on_click=close_banner)]
+    bgcolor="#2A2A2F",  # Темно-синий фон
+    leading=ft.Icon(ft.icons.WARNING_AMBER, color="#CCCCCC", size=40),  # Светло-серый значок
+    content=ft.Text("Упс, вы заполнили все поля?", color="#CCCCCC"),  # Светло-серый текст
+    actions=[
+        ft.TextButton(
+            'OK',
+            on_click=close_banner,
+            style=ft.ButtonStyle(
+                color="#CCCCCC",  # Цвет текста кнопки
+                bgcolor="#333333"  # Цвет фона кнопки
+                )
+            )
+            ]
         )
 
 
@@ -44,10 +81,10 @@ def main(page: ft.Page):
             ft.dropdown.Option("Женщина"),
         ]
         )
-    button_calculated =  ft.ElevatedButton(text="Рассчитать IMT")
+    button_calculated =  ft.ElevatedButton(text="Рассчитать IMT", on_click=calculate)
 
     # информация о IMT
-    imt = ft.Text("Тут текст", size=30)
+    imt_views = ft.Text("Проверим тебя?", size=30)
     details = ft.Text("Введите свои данные", size=20)
 
     # главное изоброжение, которе видим в первую очередь
@@ -60,7 +97,7 @@ def main(page: ft.Page):
 
     info_app_res = ft.Column(
         controls=[
-            imt,
+            imt_views,
             details,
         ]
         )
